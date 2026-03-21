@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peck — Privacy Policy</title>
+  <style>
+    :root {
+      --bg: #FFFDF7;
+      --text: #2D2D2D;
+      --accent: #E8734A;
+      --muted: #6B6B6B;
+      --border: #E8E4DC;
+      --card-bg: #FFF9F0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1A1A1A;
+        --text: #E8E4DC;
+        --accent: #F0956C;
+        --muted: #A0A0A0;
+        --border: #333;
+        --card-bg: #242424;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 2rem 1.5rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+    h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.35rem;
+      color: var(--accent);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-top: 1.25rem;
+      margin-bottom: 0.25rem;
+    }
+    p, li { font-size: 0.95rem; margin-bottom: 0.5rem; }
+    ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin: 1rem 0;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-left: 0.35rem;
+      vertical-align: middle;
+    }
+    a { color: var(--accent); }
+    hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .footer { color: var(--muted); font-size: 0.8rem; margin-top: 3rem; text-align: center; }
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap');
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>Peck Privacy Policy</h1>
+<p class="subtitle">Effective date: 21 March 2026</p>
+
+<p>
+  Peck ("the App") is a personal meal-tracking and nutrition app developed by Kelvin Harron ("we", "us", "our"). We believe your health data is yours. This policy explains what data the App collects, how it is used, and the choices you have.
+</p>
+
+<h2>1. Data That Stays on Your Device</h2>
+<p>The vast majority of your data never leaves your device. The following is stored locally in a private database and file storage accessible only to the App:</p>
+<ul>
+  <li><strong>Profile information</strong> — name, gender, date of birth, height, weight, activity level, and fitness goal</li>
+  <li><strong>Meal records</strong> — food items, nutritional values, notes, and timestamps</li>
+  <li><strong>Meal and progress photos</strong> — stored in the App's private documents directory</li>
+  <li><strong>Nutrition plans</strong> — daily calorie and macro targets</li>
+  <li><strong>Check-in data</strong> — daily weight and step entries, weekly body measurements and progress photos</li>
+  <li><strong>App preferences</strong> — theme, notification settings</li>
+</ul>
+<div class="card">
+  There is no cloud sync, no account system, and no login. Your data lives on your device and is not backed up to our servers because we do not operate any servers.
+</div>
+
+<h2>2. Data Shared with Third-Party Services</h2>
+<p>Certain optional features send limited data to external services when you actively use them. No data is sent in the background or without your action.</p>
+
+<h3>Google Gemini AI <span class="badge">Optional</span></h3>
+<p>If AI-powered nutrition estimation is available, the App may send the following to Google's Gemini API when you request an analysis:</p>
+<ul>
+  <li>Meal descriptions and photos you provide for nutrition estimation</li>
+  <li>Aggregated nutrition statistics, weight trends, step counts, goal type, and activity level for generating weekly insights</li>
+</ul>
+<p>This data is processed by Google under their <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy Policy</a>. The feature degrades gracefully if unavailable and is not required to use the App.</p>
+
+<h3>Open Food Facts</h3>
+<p>When you search for a food item or scan a barcode, the App queries the <a href="https://world.openfoodfacts.org/privacy" target="_blank" rel="noopener">Open Food Facts</a> public API. The data sent is limited to:</p>
+<ul>
+  <li>Your search query text</li>
+  <li>Scanned barcode numbers</li>
+</ul>
+<p>No personal or identifying information is included in these requests.</p>
+
+<h3>Apple Health / Health Connect</h3>
+<p>With your explicit permission, the App can read and write health data via Apple HealthKit (iOS) or Health Connect (Android):</p>
+<ul>
+  <li><strong>Read:</strong> weight, steps, active energy burned, and nutrition data</li>
+  <li><strong>Write:</strong> nutrition data and weight entries from your meals and check-ins</li>
+</ul>
+<p>This data is exchanged directly with the operating system's health platform on your device. It is not sent to us or any third party. You can revoke these permissions at any time in your device's Health settings.</p>
+
+<h2>3. Analytics and Diagnostics <span class="badge">Planned</span></h2>
+<p>We plan to introduce lightweight analytics to help us understand how the App is used and to diagnose technical issues. When implemented:</p>
+<ul>
+  <li>Analytics data will be associated with anonymous, randomly generated user identifiers — not your name, email, or any personally identifiable information</li>
+  <li>Data collected will be limited to usage patterns (e.g. which features are used, screen navigation) and diagnostic information (e.g. crash reports, performance metrics)</li>
+  <li>This data will be used solely to improve the App and fix bugs</li>
+  <li>Analytics data will not be sold, shared with advertisers, or used for tracking across other apps</li>
+</ul>
+<p>This policy will be updated before any analytics are introduced, and the App will be updated to reflect the specific service used.</p>
+
+<h2>4. Purchases</h2>
+<p>If the App offers in-app purchases or subscriptions, these are processed through Apple's App Store or Google Play. We may use a third-party service (RevenueCat) to manage subscription status. Purchase data is linked to an anonymous app-level user identifier and is used solely to manage your access to features. We do not see or store your payment details.</p>
+
+<h2>5. Notifications</h2>
+<p>The App can send local notifications (meal reminders, weekly check-in prompts) if you enable them. These notifications are generated entirely on your device — no data is sent to any external push notification service.</p>
+
+<h2>6. Camera and Photo Library</h2>
+<p>The App requests access to your camera for barcode scanning and meal photos, and to your photo library for selecting existing images. Photos you take or select are stored locally within the App. They are only sent externally if you use the AI nutrition estimation feature (see Section 2).</p>
+
+<h2>7. Children's Privacy</h2>
+<p>The App is not directed at children under 17. We do not knowingly collect data from children. If you believe a child has used the App, please contact us and we will address the concern.</p>
+
+<h2>8. Data Retention and Deletion</h2>
+<p>Since your data is stored locally on your device:</p>
+<ul>
+  <li><strong>Deleting the App</strong> removes all locally stored data, including your database, photos, and preferences</li>
+  <li><strong>Within the App</strong>, you can delete individual meals, photos, check-ins, and other records at any time</li>
+</ul>
+<p>Data previously sent to third-party APIs (Google Gemini, Open Food Facts) is subject to those services' respective retention policies.</p>
+
+<h2>9. Security</h2>
+<p>Your data is stored in the App's private sandboxed storage, which is protected by your device's operating system. We do not transmit data over unencrypted connections — all API communication uses HTTPS.</p>
+
+<h2>10. Changes to This Policy</h2>
+<p>We may update this policy from time to time. Material changes will be noted with a revised effective date at the top of this page. Continued use of the App after changes constitutes acceptance of the updated policy.</p>
+
+<h2>11. Contact</h2>
+<p>If you have questions about this policy or your data, you can reach us at:</p>
+<p><a href="mailto:kelvinharron@gmail.com">kelvinharron@gmail.com</a></p>
+
+<hr>
+<p class="footer">Peck — Track meals, not calories.<br>&copy; 2026 Kelvin Harron. All rights reserved.</p>
+
+</body>
+</html>
