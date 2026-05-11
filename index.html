@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Peck  - Friendly nutrition tracking</title>
+  <style>
+    :root {
+      --bg: #FFFDF7;
+      --text: #2D2D2D;
+      --accent: #E8734A;
+      --muted: #6B6B6B;
+      --border: #E8E4DC;
+      --card-bg: #FFF9F0;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1A1A1A;
+        --text: #E8E4DC;
+        --accent: #F0956C;
+        --muted: #A0A0A0;
+        --border: #333;
+        --card-bg: #242424;
+      }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 3rem 1.5rem;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .tagline { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; }
+    h2 {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 1.2rem;
+      color: var(--accent);
+      margin-top: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    p, li { font-size: 0.95rem; }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    a { color: var(--accent); font-weight: 700; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .links { margin-top: 2rem; display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .footer { color: var(--muted); font-size: 0.8rem; margin-top: 3rem; }
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap');
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>Peck</h1>
+<p class="tagline">Friendly nutrition tracking, one peck at a time.</p>
+
+<div class="card">
+  <h2>Need help or have feedback?</h2>
+  <p>
+    Email <a href="mailto:kelvinharron+peckapp@gmail.com">kelvinharron+peckapp@gmail.com</a> and we'll get back to you. Please include your iOS version and a short description of what you were doing.
+  </p>
+</div>
+
+<div class="card">
+  <h2>About Peck</h2>
+  <p>
+    Peck is a personal meal and nutrition tracker for iOS. Log meals with text or photos, set macro goals, and check in on your progress every week. No account required — your data stays on your device.
+  </p>
+</div>
+
+<div class="links">
+  <a href="privacy-policy.html">Privacy Policy</a>
+  <a href="https://apps.apple.com/app/id6760778069">App Store</a>
+</div>
+
+<p class="footer">&copy; 2026 Kelvin Harron.</p>
+
+</body>
+</html>

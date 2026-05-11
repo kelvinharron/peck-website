@@ -82,11 +82,22 @@
     a { color: var(--accent); }
     hr { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
     .footer { color: var(--muted); font-size: 0.8rem; margin-top: 3rem; text-align: center; }
+    .lang-switcher { display: flex; gap: 0.75rem; font-size: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .lang-switcher a { color: var(--muted); text-decoration: none; }
+    .lang-switcher a.active { color: var(--accent); font-weight: 700; }
     @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap');
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<nav class="lang-switcher" aria-label="Language">
+  <a class="active" href="privacy-policy.html" lang="en">English</a>
+  <a href="privacy-policy-es.html" lang="es">Español</a>
+  <a href="privacy-policy-ca.html" lang="ca">Català</a>
+  <a href="privacy-policy-fr.html" lang="fr">Français</a>
+  <a href="privacy-policy-pt.html" lang="pt">Português</a>
+</nav>
 
 <h1>Peck Privacy Policy</h1>
 <p class="subtitle">Effective date: 4 May 2026</p>
