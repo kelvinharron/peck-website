@@ -3,93 +3,838 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Peck  - Friendly nutrition tracking</title>
+  <title>Peck - Friendly nutrition tracking</title>
+  <meta name="description" content="Replace food-guessing with quick check-ins. Snap a photo or describe your meal — Peck logs calories and macros. No account required.">
+  <meta name="theme-color" content="#FFF8F0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#161311" media="(prefers-color-scheme: dark)">
+  <meta property="og:title" content="Peck - Friendly nutrition tracking">
+  <meta property="og:description" content="Snap a photo or describe your meal. Peck logs calories and macros, tracks against your goals, and shows progress weekly.">
+  <meta property="og:image" content="https://kelvinharron.github.io/peck-website/peck-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kelvinharron.github.io/peck-website/">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:locale:alternate" content="ca_ES">
+  <meta property="og:locale:alternate" content="fr_FR">
+  <meta property="og:locale:alternate" content="pt_PT">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" type="image/png" href="peck-icon.png">
+  <link rel="apple-touch-icon" href="peck-icon.png">
   <style>
     :root {
-      --bg: #FFFDF7;
-      --text: #2D2D2D;
-      --accent: #E8734A;
-      --muted: #6B6B6B;
-      --border: #E8E4DC;
-      --card-bg: #FFF9F0;
+      --bg: #FFF8F0;
+      --text: #2D2016;
+      --accent: #D96136;
+      --accent-ink: #B84E28;
+      --muted: #6B5D4F;
+      --border: #F5EDE3;
+      --card-bg: #FFFFFF;
+      --protein: #D45B7A;
+      --carbs: #5B8C5A;
+      --fat: #8A6D1A;
+      --track: #F5EDE3;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1A1A1A;
-        --text: #E8E4DC;
-        --accent: #F0956C;
-        --muted: #A0A0A0;
-        --border: #333;
-        --card-bg: #242424;
+        --bg: #161311;
+        --text: #EAE1DD;
+        --accent: #FF9B7A;
+        --accent-ink: #FF9B7A;
+        --muted: #D3C3BC;
+        --border: #352F2D;
+        --card-bg: #252120;
+        --protein: #E87DA0;
+        --carbs: #7AB87A;
+        --fat: #E8C862;
+        --track: #352F2D;
       }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { overscroll-behavior-y: none; }
     body {
       font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.7;
-      padding: 3rem 1.5rem;
-      max-width: 640px;
+      padding: 0 1.5rem 2rem;
+      max-width: 720px;
       margin: 0 auto;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      min-height: 100svh;
     }
+    main { width: 100%; }
     h1 {
       font-family: 'Fredoka', sans-serif;
       font-size: 2.5rem;
-      color: var(--accent);
-      margin-bottom: 0.5rem;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 1rem;
+      text-wrap: balance;
     }
-    .tagline { color: var(--muted); font-size: 1.05rem; margin-bottom: 2.5rem; }
+    h1 em { font-style: italic; color: var(--accent); }
     h2 {
       font-family: 'Fredoka', sans-serif;
-      font-size: 1.2rem;
-      color: var(--accent);
-      margin-top: 2rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.25rem;
+      color: var(--accent-ink);
+      margin-bottom: 0.35rem;
+      text-wrap: balance;
     }
-    p, li { font-size: 0.95rem; }
-    .card {
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.25rem;
+    }
+    .lede {
+      font-size: 1.05rem;
+      color: var(--text);
+      max-width: 34rem;
+      margin: 0 auto 1.75rem;
+      text-wrap: pretty;
+    }
+    /* Nav */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--bg);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.85rem 0;
+      margin: 0 -1.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 0.5rem; font-family: 'Fredoka', sans-serif; font-weight: 600; text-decoration: none; color: var(--text); }
+    .brand img { width: 28px; height: 28px; border-radius: 7px; border: 1px solid var(--border); }
+    .nav-links { display: flex; gap: 1rem; font-size: 0.9rem; font-weight: 700; }
+    .nav-links a { color: var(--muted); text-decoration: none; }
+    .nav-links a:hover { color: var(--accent-ink); }
+    .nav-cta { color: var(--accent-ink); text-decoration: none; font-weight: 700; font-size: 0.9rem; white-space: nowrap; }
+    .head-right { display: flex; gap: 0.6rem; align-items: center; }
+    .langdrop { position: relative; }
+    #langBtn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.3rem 0.6rem 0.3rem 0.35rem;
+      cursor: pointer;
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+    .ld-flag { width: 20px; height: 20px; border-radius: 50%; overflow: hidden; display: inline-block; line-height: 0; }
+    .ld-flag svg { width: 100%; height: 100%; display: block; }
+    .ld-chev { color: var(--muted); }
+    #langMenu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 6px);
+      list-style: none;
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 1.5rem;
-      margin: 1.5rem 0;
-      text-align: left;
+      padding: 0.3rem;
+      margin: 0;
+      min-width: 158px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      z-index: 20;
     }
-    a { color: var(--accent); font-weight: 700; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .links { margin-top: 2rem; display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
-    .footer { color: var(--muted); font-size: 0.8rem; margin-top: 3rem; }
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap');
+    #langMenu[hidden] { display: none; }
+    #langMenu button {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      width: 100%;
+      background: none;
+      border: 0;
+      border-radius: 9px;
+      padding: 0.45rem 0.55rem;
+      cursor: pointer;
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    #langMenu button:hover { background: var(--border); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+    :focus-visible { outline: 2px solid var(--accent-ink); outline-offset: 2px; }
+    #langMenu li[aria-checked="true"] button { font-weight: 800; }
+    @media (max-width: 520px) { .nav-links { display: none; } }
+    /* Hero */
+    .hero { padding-top: 2.5rem; margin-bottom: 1.5rem; }
+    .hero-note { font-size: 0.85rem; color: var(--muted); margin-top: 0.9rem; }
+    .shots {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+    .shots figure { flex: 1 1 0; min-width: 0; max-width: 260px; margin: 0; }
+    .shots img { width: 100%; height: auto; border-radius: 12px; display: block; }
+    /* Grouped section cards */
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1.5rem 1.3rem 1.35rem;
+      margin-bottom: 1.25rem;
+      scroll-margin-top: 4.5rem;
+    }
+    .rows { text-align: left; }
+    .rows > * + * { border-top: 1px solid var(--border); }
+    .row-pad { padding: 0.9rem 0.1rem; }
+    .row-pad h3 { font-family: 'Fredoka', sans-serif; font-size: 1rem; margin-bottom: 0.25rem; }
+    .row-pad p { font-size: 0.92rem; }
+    .row-head { display: flex; align-items: center; gap: 0.55rem; }
+    .row-head svg { flex: 0 0 auto; color: var(--accent-ink); }
+    /* Tally demo */
+    .tally {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .rings { flex: 0 0 auto; margin: 0; }
+    .rings svg { display: block; width: 216px; height: 216px; }
+    .rings-center-number {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 30px;
+      font-weight: 600;
+      fill: var(--text);
+    }
+    .rings-center-unit {
+      font-family: 'Nunito', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      fill: var(--muted);
+    }
+    .meal-log { list-style: none; flex: 0 1 205px; min-width: 180px; max-width: 240px; text-align: left; }
+    .meal-log li { padding: 0.7rem 0.1rem; opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .meal-log li + li { border-top: 1px solid var(--border); }
+    .meal-log li.in { opacity: 1; transform: none; }
+    .meal-name { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .meal-stats { display: flex; align-items: center; gap: 0.6rem; }
+    .kcal-badge {
+      background: var(--border);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent-ink);
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+    .macros { margin-left: auto; display: flex; gap: 0.6rem; }
+    .macro { font-size: 0.8rem; font-weight: 600; }
+    .macro.p { color: var(--protein); }
+    .macro.c { color: var(--carbs); }
+    .macro.f { color: var(--fat); }
+    .steps { list-style: none; text-align: left; }
+    .steps li { padding: 0.9rem 0.1rem; }
+    .steps li + li { border-top: 1px solid var(--border); }
+    .steps p { font-size: 0.95rem; }
+    .steps strong { font-weight: 700; }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.4em;
+      height: 1.4em;
+      border-radius: 50%;
+      background: var(--border);
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      color: var(--accent-ink);
+      font-size: 0.8rem;
+      font-weight: 800;
+      margin-right: 0.45rem;
+      vertical-align: baseline;
+    }
+    /* FAQ with animated dropdowns */
+    .faq { text-align: left; }
+    .faq details { border-top: 1px solid var(--border); }
+    .faq details:last-child { border-bottom: 1px solid var(--border); }
+    .faq summary {
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 0.1rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+";
+      color: var(--accent-ink);
+      font-weight: 800;
+      font-size: 1.1rem;
+      line-height: 1;
+      transition: transform 0.25s ease;
+      flex: 0 0 auto;
+    }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.28s ease; }
+    .faq details[open] .faq-body { grid-template-rows: 1fr; }
+    .faq-body > div { overflow: hidden; }
+    .faq-body p { font-size: 0.92rem; padding-bottom: 0.9rem; }
+    /* Store */
+    .store-row {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .store-badge img { display: block; height: 44px; width: auto; }
+    .gp { display: inline-flex; flex-direction: column; align-items: center; gap: 0.15rem; line-height: 0; }
+    .gp img { height: 44px; width: auto; border-radius: 6px; opacity: 0.55; }
+    .gp b { color: var(--muted); font-size: 0.78rem; font-weight: 700; line-height: 1.4; white-space: nowrap; }
+    .links { display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap; }
+    .links a { color: var(--accent-ink); font-weight: 700; text-decoration: none; }
+    .links a:hover { text-decoration: underline; }
+    footer { margin-top: auto; padding-top: 2rem; }
+    .footer { color: var(--muted); font-size: 0.8rem; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; animation: none !important; }
+      .meal-log li { opacity: 1 !important; transform: none !important; }
+    }
   </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <noscript><style>.meal-log li { opacity: 1 !important; transform: none !important; }</style></noscript>
 </head>
 <body>
 
-<h1>Peck</h1>
-<p class="tagline">Friendly nutrition tracking, one peck at a time.</p>
+<header class="site-nav">
+  <a class="brand" href="#top"><img src="peck-icon.png" alt="" width="28" height="28">Peck</a>
+  <nav class="nav-links" aria-label="Sections">
+    <a href="#how" data-i18n="nav_how">How it works</a>
+    <a href="#privacy" data-i18n="nav_privacy">Privacy</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+  </nav>
+  <div class="head-right">
+    <div class="langdrop">
+      <button type="button" id="langBtn" aria-haspopup="menu" aria-expanded="false"><span class="ld-flag" id="langFlag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="24" height="18" fill="#012169"/><path d="M0 0l24 18M24 0L0 18" stroke="#fff" stroke-width="3.5"/><path d="M0 0l24 18M24 0L0 18" stroke="#C8102E" stroke-width="1.4"/><path d="M12 0v18M0 9h24" stroke="#fff" stroke-width="5.5"/><path d="M12 0v18M0 9h24" stroke="#C8102E" stroke-width="3.2"/></svg></span><span id="langName">English</span><svg class="ld-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <ul id="langMenu" role="menu" aria-label="Language" hidden>
+        <li role="menuitemradio" aria-checked="true"><button type="button" data-lang="en"><span class="ld-flag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="24" height="18" fill="#012169"/><path d="M0 0l24 18M24 0L0 18" stroke="#fff" stroke-width="3.5"/><path d="M0 0l24 18M24 0L0 18" stroke="#C8102E" stroke-width="1.4"/><path d="M12 0v18M0 9h24" stroke="#fff" stroke-width="5.5"/><path d="M12 0v18M0 9h24" stroke="#C8102E" stroke-width="3.2"/></svg></span><span>English</span></button></li>
+        <li role="menuitemradio" aria-checked="false"><button type="button" data-lang="es"><span class="ld-flag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="24" height="18" fill="#AA151B"/><rect y="4.5" width="24" height="9" fill="#F1BF00"/></svg></span><span>Español</span></button></li>
+        <li role="menuitemradio" aria-checked="false"><button type="button" data-lang="ca"><span class="ld-flag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="24" height="18" fill="#FCDD09"/><g fill="#DA121A"><rect y="2.2" width="24" height="1.8"/><rect y="6.2" width="24" height="1.8"/><rect y="10.2" width="24" height="1.8"/><rect y="14.2" width="24" height="1.8"/></g></svg></span><span>Català</span></button></li>
+        <li role="menuitemradio" aria-checked="false"><button type="button" data-lang="fr"><span class="ld-flag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="8" height="18" fill="#0055A4"/><rect x="8" width="8" height="18" fill="#fff"/><rect x="16" width="8" height="18" fill="#EF4135"/></svg></span><span>Français</span></button></li>
+        <li role="menuitemradio" aria-checked="false"><button type="button" data-lang="pt"><span class="ld-flag"><svg viewBox="0 0 24 18" aria-hidden="true"><rect width="9.6" height="18" fill="#046A38"/><rect x="9.6" width="14.4" height="18" fill="#DA291C"/><circle cx="9.6" cy="9" r="3" fill="#FFE900"/></svg></span><span>Português</span></button></li>
+      </ul>
+    </div>
+    <a class="nav-cta" href="#download" data-i18n="nav_get">Get the app</a>
+  </div>
+</header>
 
-<div class="card">
-  <h2>Need help or have feedback?</h2>
-  <p>
-    Email <a href="mailto:kelvinharron+peckapp@gmail.com">kelvinharron+peckapp@gmail.com</a> and we'll get back to you. Please include your iOS version and a short description of what you were doing.
-  </p>
-</div>
+<main id="top">
 
-<div class="card">
-  <h2>About Peck</h2>
-  <p>
-    Peck is a personal meal and nutrition tracker for iOS. Log meals with text or photos, set macro goals, and check in on your progress every week. No account required — your data stays on your device.
-  </p>
-</div>
+  <section class="hero">
+    <h1 data-i18n="hero_h1">Replace food-guessing with <em>quick check-ins.</em></h1>
+    <p class="lede" data-i18n="hero_lede">Snap a photo or describe your meal in words. Peck logs calories and macros, tracks them against your goals, and shows progress weekly.</p>
+    <div class="shots" aria-label="Peck app screenshots">
+      <figure>
+        <img src="shot-home.png" alt="Peck home screen showing today's calories and macros" loading="eager" width="1320" height="2868">
+      </figure>
+      <figure>
+        <img src="shot-daily.png" alt="Peck daily digest breaking down nutrition meal by meal" loading="lazy" width="1320" height="2868">
+      </figure>
+    </div>
+    <div class="store-row">
+      <a class="store-badge" href="https://apps.apple.com/app/id6760778069">
+        <picture>
+          <source srcset="app-store-badge-white.svg" media="(prefers-color-scheme: dark)">
+          <img src="app-store-badge.svg" alt="Download on the App Store" height="44">
+        </picture>
+      </a>
+      <span class="gp"><img src="google-play-badge.png" alt="" height="44"><b>Coming soon</b></span>
+    </div>
+    <p class="hero-note" data-i18n="hero_note">No account required &mdash; your data stays on your device.</p>
+  </section>
 
-<div class="links">
-  <a href="privacy-policy.html">Privacy Policy</a>
-  <a href="https://apps.apple.com/app/id6760778069">App Store</a>
-</div>
+  <section id="how" class="panel">
+    <h2 data-i18n="how_h2">Log in seconds, see the pattern</h2>
+    <p class="section-sub" data-i18n="how_sub">Three small habits. Scroll to watch a day add up.</p>
+    <div class="tally">
+      <figure class="rings">
+        <svg viewBox="0 0 168 168" role="img" aria-labelledby="ringsTitle"><title id="ringsTitle">Daily macro rings</title>
+          <circle cx="84" cy="84" r="75.5" fill="none" stroke="var(--track)" stroke-width="9"/>
+          <circle id="ringP" cx="84" cy="84" r="75.5" fill="none" stroke="var(--protein)" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="77 100" transform="rotate(-90 84 84)"/>
+          <circle cx="84" cy="84" r="64.5" fill="none" stroke="var(--track)" stroke-width="9"/>
+          <circle id="ringC" cx="84" cy="84" r="64.5" fill="none" stroke="var(--carbs)" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="61 100" transform="rotate(-90 84 84)"/>
+          <circle cx="84" cy="84" r="53.5" fill="none" stroke="var(--track)" stroke-width="9"/>
+          <circle id="ringF" cx="84" cy="84" r="53.5" fill="none" stroke="var(--fat)" stroke-width="9" stroke-linecap="round" pathLength="100" stroke-dasharray="80 100" transform="rotate(-90 84 84)"/>
+          <text id="kcalNumber" x="84" y="84" text-anchor="middle" class="rings-center-number">1,450</text>
+          <text x="84" y="102" text-anchor="middle" class="rings-center-unit">kcal</text>
+        </svg>
+      </figure>
+      <ol class="meal-log" id="mealLog">
+        <li data-kcal="320" data-p="28" data-c="12" data-f="14">
+          <p class="meal-name" data-i18n="m1">Grilled chicken salad</p>
+          <div class="meal-stats">
+            <span class="kcal-badge">320 kcal</span>
+            <span class="macros"><span class="macro p">P 28</span><span class="macro c">C 12</span><span class="macro f">F 14</span></span>
+          </div>
+        </li>
+        <li data-kcal="410" data-p="18" data-c="58" data-f="12">
+          <p class="meal-name" data-i18n="m2">Oat latte + berry oats</p>
+          <div class="meal-stats">
+            <span class="kcal-badge">410 kcal</span>
+            <span class="macros"><span class="macro p">P 18</span><span class="macro c">C 58</span><span class="macro f">F 12</span></span>
+          </div>
+        </li>
+        <li data-kcal="540" data-p="38" data-c="45" data-f="18">
+          <p class="meal-name" data-i18n="m3">Salmon rice bowl</p>
+          <div class="meal-stats">
+            <span class="kcal-badge">540 kcal</span>
+            <span class="macros"><span class="macro p">P 38</span><span class="macro c">C 45</span><span class="macro f">F 18</span></span>
+          </div>
+        </li>
+        <li data-kcal="180" data-p="16" data-c="20" data-f="4">
+          <p class="meal-name" data-i18n="m4">Greek yogurt + honey</p>
+          <div class="meal-stats">
+            <span class="kcal-badge">180 kcal</span>
+            <span class="macros"><span class="macro p">P 16</span><span class="macro c">C 20</span><span class="macro f">F 4</span></span>
+          </div>
+        </li>
+      </ol>
+    </div>
+    <ol class="steps rows">
+      <li><p data-i18n="step1"><span class="step-num">1</span><strong>Snap it or describe it.</strong> A photo or a few words becomes logged calories and macros. Edit anything in a tap.</p></li>
+      <li><p data-i18n="step2"><span class="step-num">2</span><strong>Search real foods when you want precision.</strong> Built-in food database with barcode scanning fills in the numbers.</p></li>
+      <li><p data-i18n="step3"><span class="step-num">3</span><strong>Check in weekly.</strong> Summaries, insights, and a body journal keep progress visible without daily guilt.</p></li>
+    </ol>
+  </section>
 
-<p class="footer">&copy; 2026 Kelvin Harron.</p>
+  <section id="privacy" class="panel">
+    <h2 data-i18n="priv_h2">Private by default, yours to keep</h2>
+    <p class="section-sub" data-i18n="priv_sub">No account, no data brokerage. Health tools should earn trust.</p>
+    <div class="rows">
+      <div class="row-pad">
+        <h3 class="row-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span data-i18n="priv1_h">No account required</span></h3>
+        <p data-i18n="priv1_p">Open Peck and start logging. Nothing to sign up for, nothing to leak.</p>
+      </div>
+      <div class="row-pad">
+        <h3 class="row-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg><span data-i18n="priv2_h">On your device</span></h3>
+        <p data-i18n="priv2_p">Meals, goals, and check-ins live in on-device storage &mdash; not a marketing database.</p>
+      </div>
+      <div class="row-pad">
+        <h3 class="row-head"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg><span data-i18n="priv3_h">You own your data</span></h3>
+        <p data-i18n="priv3_p">Export your history whenever you like. Delete it and it&rsquo;s gone.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="panel">
+    <h2 data-i18n="faq_h2">FAQ</h2>
+    <p class="section-sub" data-i18n="faq_note">Peck speaks English, Español, Català, Français and Português — inside the app too.</p>
+    <div class="faq">
+      <details>
+        <summary data-i18n="q1">Do I need to weigh everything?</summary>
+        <div class="faq-body"><div><p data-i18n="a1">No. Describe it roughly (&ldquo;chicken salad, olive oil dressing&rdquo;) or snap a photo and Peck estimates. Weigh when you want precision; otherwise log roughly and stay consistent.</p></div></div>
+      </details>
+      <details>
+        <summary data-i18n="q2">What if the AI estimate is wrong?</summary>
+        <div class="faq-body"><div><p data-i18n="a2">Edit it in a tap &mdash; calories and each macro are adjustable. Peck saves your version.</p></div></div>
+      </details>
+      <details>
+        <summary data-i18n="q3">Where is my data stored?</summary>
+        <div class="faq-body"><div><p data-i18n="a3">On your device. There is no account, so there is no cloud profile to breach or sell.</p></div></div>
+      </details>
+      <details>
+        <summary data-i18n="q4">Can I export my data?</summary>
+        <div class="faq-body"><div><p data-i18n="a4">Yes. Export your history whenever you like, straight from the app.</p></div></div>
+      </details>
+      <details>
+        <summary data-i18n="q5">Is Peck free?</summary>
+        <div class="faq-body"><div><p data-i18n="a5">Peck is free to download and track with. Peck Plus unlocks ad-free estimation and exclusive widgets.</p></div></div>
+      </details>
+      <details>
+        <summary data-i18n="q6">Is Android supported?</summary>
+        <div class="faq-body"><div><p data-i18n="a6">Not yet &mdash; iOS first, Google Play is coming soon.</p></div></div>
+      </details>
+    </div>
+  </section>
+
+  <section id="download" class="panel">
+    <h2 data-i18n="dl_h2">One small peck at a time</h2>
+    <p class="section-sub" data-i18n="dl_sub">Free to try. No account needed.</p>
+    <div class="store-row">
+      <a class="store-badge" href="https://apps.apple.com/app/id6760778069">
+        <picture>
+          <source srcset="app-store-badge-white.svg" media="(prefers-color-scheme: dark)">
+          <img src="app-store-badge.svg" alt="Download on the App Store" height="44">
+        </picture>
+      </a>
+      <span class="gp"><img src="google-play-badge.png" alt="" height="44"><b>Coming soon</b></span>
+    </div>
+    <div class="links">
+      <a href="privacy-policy.html" data-i18n="dl_privacy">Privacy Policy</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p class="footer">&copy; 2026 Kelvin Harron.</p>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = Array.prototype.slice.call(document.querySelectorAll('#mealLog li'));
+  var kcalEl = document.getElementById('kcalNumber');
+  var ringP = document.getElementById('ringP');
+  var ringC = document.getElementById('ringC');
+  var ringF = document.getElementById('ringF');
+  var TARGETS = { p: 130, c: 220, f: 60 };
+  function totals(upto) {
+    var t = { kcal: 0, p: 0, c: 0, f: 0 };
+    for (var i = 0; i <= upto && i < items.length; i++) {
+      t.kcal += +items[i].dataset.kcal || 0;
+      t.p += +items[i].dataset.p || 0;
+      t.c += +items[i].dataset.c || 0;
+      t.f += +items[i].dataset.f || 0;
+    }
+    return t;
+  }
+  function render(t) {
+    kcalEl.textContent = t.kcal.toLocaleString(window.__peckLang || 'en');
+    ringP.setAttribute('stroke-dasharray', Math.min(100, t.p / TARGETS.p * 100).toFixed(1) + ' 100');
+    ringC.setAttribute('stroke-dasharray', Math.min(100, t.c / TARGETS.c * 100).toFixed(1) + ' 100');
+    ringF.setAttribute('stroke-dasharray', Math.min(100, t.f / TARGETS.f * 100).toFixed(1) + ' 100');
+  }
+  function animateTo(upto) {
+    var from = totals(upto - 1), to = totals(upto);
+    if (reduce) { render(to); return; }
+    var start = null, dur = 550;
+    function frame(ts) {
+      if (!start) start = ts;
+      var k = Math.min(1, (ts - start) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      render({
+        kcal: Math.round(from.kcal + (to.kcal - from.kcal) * e),
+        p: from.p + (to.p - from.p) * e,
+        c: from.c + (to.c - from.c) * e,
+        f: from.f + (to.f - from.f) * e
+      });
+      if (k < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if (!items.length) return;
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (li) { li.classList.add('in'); });
+    render(totals(items.length - 1));
+    return;
+  }
+  render({ kcal: 0, p: 0, c: 0, f: 0 });
+  var seen = 0;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (!en.isIntersecting) return;
+      var li = en.target;
+      io.unobserve(li);
+      li.classList.add('in');
+      animateTo(items.indexOf(li));
+      seen++;
+      if (seen >= items.length) io.disconnect();
+    });
+  }, { threshold: 0.35 });
+  items.forEach(function (li) { io.observe(li); });
+})();
+</script>
+
+<script>
+(function () {
+  var STR = {
+    en: {
+      nav_how: 'How it works', nav_privacy: 'Privacy', nav_faq: 'FAQ', nav_get: 'Get the app',
+      hero_h1: 'Replace food-guessing with <em>quick check-ins.</em>',
+      hero_lede: 'Snap a photo or describe your meal in words. Peck logs calories and macros, tracks them against your goals, and shows progress weekly.',
+      hero_note: 'No account required — your data stays on your device.',
+      alt_home: 'Peck home screen showing today’s calories and macros',
+      alt_daily: 'Peck daily digest breaking down nutrition meal by meal',
+      how_h2: 'Log in seconds, see the pattern',
+      how_sub: 'Three small habits. Scroll to watch a day add up.',
+      m1: 'Grilled chicken salad', m2: 'Oat latte + berry oats', m3: 'Salmon rice bowl', m4: 'Greek yogurt + honey',
+      step1: '<span class="step-num">1</span><strong>Snap it or describe it.</strong> A photo or a few words becomes logged calories and macros. Edit anything in a tap.',
+      step2: '<span class="step-num">2</span><strong>Search real foods when you want precision.</strong> Built-in food database with barcode scanning fills in the numbers.',
+      step3: '<span class="step-num">3</span><strong>Check in weekly.</strong> Summaries, insights, and a body journal keep progress visible without daily guilt.',
+      priv_h2: 'Private by default, yours to keep',
+      priv_sub: 'No account, no data brokerage. Health tools should earn trust.',
+      priv1_h: 'No account required', priv1_p: 'Open Peck and start logging. Nothing to sign up for, nothing to leak.',
+      priv2_h: 'On your device', priv2_p: 'Meals, goals, and check-ins live in on-device storage — not a marketing database.',
+      priv3_h: 'You own your data', priv3_p: 'Export your history whenever you like. Delete it and it’s gone.',
+      faq_h2: 'FAQ',
+      faq_note: 'Peck speaks English, Español, Català, Français and Português — inside the app too.',
+      q1: 'Do I need to weigh everything?',
+      a1: 'No. Describe it roughly (“chicken salad, olive oil dressing”) or snap a photo and Peck estimates. Weigh when you want precision; otherwise log roughly and stay consistent.',
+      q2: 'What if the AI estimate is wrong?',
+      a2: 'Edit it in a tap — calories and each macro are adjustable. Peck saves your version.',
+      q3: 'Where is my data stored?',
+      a3: 'On your device. There is no account, so there is no cloud profile to breach or sell.',
+      q4: 'Can I export my data?',
+      a4: 'Yes. Export your history whenever you like, straight from the app.',
+      q5: 'Is Peck free?',
+      a5: 'Peck is free to download and track with. Peck Plus unlocks ad-free estimation and exclusive widgets.',
+      q6: 'Is Android supported?',
+      a6: 'Not yet — iOS first, Google Play is coming soon.',
+      dl_h2: 'One small peck at a time', dl_sub: 'Free to try. No account needed.', dl_privacy: 'Privacy Policy',
+      coming: 'Coming soon',
+      badge_alt: 'Download on the App Store',
+      aria_nav: 'Sections', aria_lang: 'Language', aria_shots: 'Peck app screenshots',
+      docTitle: 'Peck - Friendly nutrition tracking',
+      docDesc: 'Replace food-guessing with quick check-ins. Snap a photo or describe your meal — Peck logs calories and macros. No account required.'
+    },
+    es: {
+      nav_how: 'Cómo funciona', nav_privacy: 'Privacidad', nav_faq: 'FAQ', nav_get: 'Descargar',
+      hero_h1: 'Deja de adivinar lo que comes. <em>Regístralo en segundos.</em>',
+      hero_lede: 'Haz una foto o describe tu comida con palabras. Peck registra calorías y macros, los compara con tus objetivos y te muestra tu progreso cada semana.',
+      hero_note: 'Sin cuenta: tus datos se quedan en tu dispositivo.',
+      alt_home: 'Pantalla principal de Peck con las calorías y macros de hoy',
+      alt_daily: 'Resumen diario de Peck con la nutrición comida por comida',
+      how_h2: 'Registra en segundos, ve el patrón',
+      how_sub: 'Tres pequeños hábitos. Desliza para ver cómo suma un día.',
+      m1: 'Ensalada de pollo a la parrilla', m2: 'Latte de avena + avena con frutos rojos', m3: 'Bol de salmón con arroz', m4: 'Yogur griego con miel',
+      step1: '<span class="step-num">1</span><strong>Haz una foto o descríbelo.</strong> Una foto o unas palabras se convierten en calorías y macros. Edita lo que sea con un toque.',
+      step2: '<span class="step-num">2</span><strong>Busca alimentos reales cuando quieras precisión.</strong> La base de datos con escáner de códigos completa los números.',
+      step3: '<span class="step-num">3</span><strong>Revisa cada semana.</strong> Resúmenes, ideas y un diario corporal mantienen tu progreso visible, sin culpa diaria.',
+      priv_h2: 'Privado por defecto, tuyo para siempre',
+      priv_sub: 'Sin cuenta, sin intermediarios de datos. Las herramientas de salud deben ganarse tu confianza.',
+      priv1_h: 'Sin cuenta', priv1_p: 'Abre Peck y empieza a registrar. Nada que crear, nada que filtrar.',
+      priv2_h: 'En tu dispositivo', priv2_p: 'Comidas, objetivos y revisiones viven en tu teléfono, no en una base de datos de marketing.',
+      priv3_h: 'Tus datos son tuyos', priv3_p: 'Exporta tu historial cuando quieras. Bórralo y desaparece.',
+      faq_h2: 'Preguntas frecuentes',
+      faq_note: 'Peck habla English, Español, Català, Français y Português, también dentro de la app.',
+      q1: '¿Necesito pesarlo todo?',
+      a1: 'No. Descríbelo de forma aproximada («ensalada de pollo con aliño de aceite») o haz una foto y Peck lo estima. Pesa cuando quieras precisión; si no, registra de forma aproximada y sé constante.',
+      q2: '¿Y si la estimación de la IA falla?',
+      a2: 'Edítala con un toque: las calorías y cada macro se pueden ajustar. Peck guarda tu versión.',
+      q3: '¿Dónde se guardan mis datos?',
+      a3: 'En tu dispositivo. No hay cuenta, así que no hay perfil en la nube que filtrar ni vender.',
+      q4: '¿Puedo exportar mis datos?',
+      a4: 'Sí. Exporta tu historial cuando quieras, directamente desde la app.',
+      q5: '¿Peck es gratis?',
+      a5: 'Peck se descarga gratis y puedes registrar gratis. Peck Plus desbloquea estimación sin anuncios y widgets exclusivos.',
+      q6: '¿Hay versión para Android?',
+      a6: 'Todavía no: primero iOS, Google Play llegará pronto.',
+      dl_h2: 'Un picotazo a la vez', dl_sub: 'Gratis para probar. Sin cuenta.', dl_privacy: 'Política de privacidad',
+      coming: 'Próximamente',
+      badge_alt: 'Descargar en App Store',
+      aria_nav: 'Secciones', aria_lang: 'Idioma', aria_shots: 'Capturas de la app Peck',
+      docTitle: 'Peck - Registro de nutrición amable',
+      docDesc: 'Deja de adivinar lo que comes. Haz una foto o describe tu comida: Peck registra calorías y macros. Sin cuenta.'
+    },
+    ca: {
+      nav_how: 'Com funciona', nav_privacy: 'Privadesa', nav_faq: 'Preguntes', nav_get: 'Descarrega',
+      hero_h1: 'Deixa d’endevinar què menges. <em>Registra-ho en segons.</em>',
+      hero_lede: 'Fes una foto o descriu el teu àpat amb paraules. Peck registra calories i macros, els compara amb els teus objectius i et mostra el progrés cada setmana.',
+      hero_note: 'Sense compte: les teves dades es queden al teu dispositiu.',
+      alt_home: 'Pantalla principal de Peck amb les calories i macros d’avui',
+      alt_daily: 'Resum diari de Peck amb la nutrició àpat per àpat',
+      how_h2: 'Registra en segons, veu-hi el patró',
+      how_sub: 'Tres petits hàbits. Fes scroll per veure com suma un dia.',
+      m1: 'Amanida de pollastre a la brasa', m2: 'Civada amb fruits vermells', m3: 'Bol de salmó amb arròs', m4: 'Iogurt grec amb mel',
+      step1: '<span class="step-num">1</span><strong>Fes una foto o descriu-ho.</strong> Una foto o unes paraules es converteixen en calories i macros. Edita el que sigui amb un toc.',
+      step2: '<span class="step-num">2</span><strong>Cerca aliments reals quan vulguis precisió.</strong> La base de dades amb escàner de codis completa els números.',
+      step3: '<span class="step-num">3</span><strong>Revisa cada setmana.</strong> Resums, idees i un diari corporal mantenen el progrés visible, sense culpa diària.',
+      priv_h2: 'Privat per defecte, teu per sempre',
+      priv_sub: 'Sense compte, sense intermediaris de dades. Les eines de salut s’han de guanyar la confiança.',
+      priv1_h: 'Sense compte', priv1_p: 'Obre Peck i comença a registrar. Res a crear, res a filtrar.',
+      priv2_h: 'Al teu dispositiu', priv2_p: 'Àpats, objectius i revisions viuen al teu telèfon, no en una base de dades de màrqueting.',
+      priv3_h: 'Les teves dades són teves', priv3_p: 'Exporta el teu historial quan vulguis. Esborra’l i desapareix.',
+      faq_h2: 'Preguntes freqüents',
+      faq_note: 'Peck parla English, Español, Català, Français i Português, també dins l’app.',
+      q1: 'He de pesar-ho tot?',
+      a1: 'No. Descriu-ho de forma aproximada («amanida de pollastre amb oli») o fes una foto i Peck ho estima. Pesa quan vulguis precisió; si no, registra de forma aproximada i sigues constant.',
+      q2: 'I si l’estimació de la IA falla?',
+      a2: 'Edita-la amb un toc: les calories i cada macro es poden ajustar. Peck desa la teva versió.',
+      q3: 'On es desen les meves dades?',
+      a3: 'Al teu dispositiu. No hi ha cap compte, així que no hi ha cap perfil al núvol per filtrar ni vendre.',
+      q4: 'Puc exportar les meves dades?',
+      a4: 'Sí. Exporta el teu historial quan vulguis, directament des de l’app.',
+      q5: 'Peck és gratuït?',
+      a5: 'Peck es descarrega gratis i pots registrar gratis. Peck Plus desbloqueja l’estimació sense anuncis i ginys exclusius.',
+      q6: 'Hi ha versió per a Android?',
+      a6: 'Encara no: primer iOS, Google Play arribarà aviat.',
+      dl_h2: 'Un cop de bec a la vegada', dl_sub: 'Gratis per provar. Sense compte.', dl_privacy: 'Política de privadesa',
+      coming: 'Properament',
+      badge_alt: 'Descarrega a l’App Store',
+      aria_nav: 'Seccions', aria_lang: 'Idioma', aria_shots: 'Captures de l’app Peck',
+      docTitle: 'Peck - Registre de nutrició amable',
+      docDesc: 'Deixa d’endevinar què menges. Fes una foto o descriu el teu àpat: Peck registra calories i macros. Sense compte.'
+    },
+    fr: {
+      nav_how: 'Fonctionnement', nav_privacy: 'Confidentialité', nav_faq: 'FAQ', nav_get: 'Télécharger',
+      hero_h1: 'Arrêtez de deviner ce que vous mangez. <em>Notez-le en quelques secondes.</em>',
+      hero_lede: 'Prenez une photo ou décrivez votre repas en quelques mots. Peck enregistre calories et macros, les compare à vos objectifs et vous montre vos progrès chaque semaine.',
+      hero_note: 'Sans compte : vos données restent sur votre appareil.',
+      alt_home: 'Écran d’accueil de Peck avec les calories et macros du jour',
+      alt_daily: 'Résumé quotidien de Peck, repas par repas',
+      how_h2: 'Notez en quelques secondes, voyez la tendance',
+      how_sub: 'Trois petites habitudes. Faites défiler pour voir une journée s’additionner.',
+      m1: 'Salade de poulet grillé', m2: 'Porridge aux fruits rouges', m3: 'Bol de saumon au riz', m4: 'Yaourt grec au miel',
+      step1: '<span class="step-num">1</span><strong>Prenez une photo ou décrivez.</strong> Une photo ou quelques mots deviennent des calories et des macros. Modifiez tout d’un toucher.',
+      step2: '<span class="step-num">2</span><strong>Cherchez de vrais aliments pour plus de précision.</strong> La base de données avec scan de codes-barres complète les chiffres.',
+      step3: '<span class="step-num">3</span><strong>Faites le point chaque semaine.</strong> Résumés, analyses et journal corporel rendent vos progrès visibles, sans culpabilité.',
+      priv_h2: 'Privé par défaut, à vous pour toujours',
+      priv_sub: 'Sans compte, sans courtiers de données. Les outils santé doivent mériter votre confiance.',
+      priv1_h: 'Sans compte', priv1_p: 'Ouvrez Peck et commencez. Rien à créer, rien à fuiter.',
+      priv2_h: 'Sur votre appareil', priv2_p: 'Repas, objectifs et bilans vivent sur votre téléphone, pas dans une base marketing.',
+      priv3_h: 'Vos données vous appartiennent', priv3_p: 'Exportez votre historique quand vous voulez. Supprimez-le et il disparaît.',
+      faq_h2: 'Questions fréquentes',
+      faq_note: 'Peck parle English, Español, Català, Français et Português, dans l’app aussi.',
+      q1: 'Faut-il tout peser ?',
+      a1: 'Non. Décrivez à peu près (« salade de poulet, vinaigrette à l’huile ») ou prenez une photo et Peck estime. Pesez pour la précision ; sinon, notez à peu près et restez régulier.',
+      q2: 'Et si l’estimation de l’IA est fausse ?',
+      a2: 'Corrigez d’un toucher : calories et macros sont ajustables. Peck garde votre version.',
+      q3: 'Où sont stockées mes données ?',
+      a3: 'Sur votre appareil. Sans compte, aucun profil cloud à pirater ni à vendre.',
+      q4: 'Puis-je exporter mes données ?',
+      a4: 'Oui. Exportez votre historique quand vous voulez, depuis l’app.',
+      q5: 'Peck est-il gratuit ?',
+      a5: 'Peck se télécharge gratuitement et le suivi est gratuit. Peck Plus débloque l’estimation sans pubs et des widgets exclusifs.',
+      q6: 'Et Android ?',
+      a6: 'Pas encore : iOS d’abord, Google Play arrive bientôt.',
+      dl_h2: 'Un petit coup de bec à la fois', dl_sub: 'Gratuit à essayer. Sans compte.', dl_privacy: 'Politique de confidentialité',
+      coming: 'Bientôt disponible',
+      badge_alt: 'Télécharger sur l’App Store',
+      aria_nav: 'Sections', aria_lang: 'Langue', aria_shots: 'Captures d’écran de l’app Peck',
+      docTitle: 'Peck - Suivi nutritionnel convivial',
+      docDesc: 'Arrêtez de deviner ce que vous mangez. Photo ou description : Peck enregistre calories et macros. Sans compte.'
+    },
+    pt: {
+      nav_how: 'Como funciona', nav_privacy: 'Privacidade', nav_faq: 'FAQ', nav_get: 'Descarregar',
+      hero_h1: 'Pare de adivinhar o que come. <em>Registe em segundos.</em>',
+      hero_lede: 'Tire uma foto ou descreva a sua refeição por palavras. Peck regista calorias e macros, compara com os seus objetivos e mostra o progresso todas as semanas.',
+      hero_note: 'Sem conta: os seus dados ficam no seu dispositivo.',
+      alt_home: 'Ecrã principal de Peck com as calorias e macros de hoje',
+      alt_daily: 'Resumo diário de Peck com a nutrição refeição a refeição',
+      how_h2: 'Registe em segundos, veja o padrão',
+      how_sub: 'Três pequenos hábitos. Deslize para ver um dia a somar.',
+      m1: 'Salada de frango grelhado', m2: 'Aveia com frutos vermelhos', m3: 'Taça de salmão com arroz', m4: 'Iogurte grego com mel',
+      step1: '<span class="step-num">1</span><strong>Tire uma foto ou descreva.</strong> Uma foto ou poucas palavras viram calorias e macros. Edite tudo com um toque.',
+      step2: '<span class="step-num">2</span><strong>Pesquise alimentos reais quando quiser precisão.</strong> A base de dados com leitor de códigos preenche os números.',
+      step3: '<span class="step-num">3</span><strong>Reveja todas as semanas.</strong> Resumos, análises e um diário corporal mantêm o progresso visível, sem culpa diária.',
+      priv_h2: 'Privado por defeito, seu para sempre',
+      priv_sub: 'Sem conta, sem corretores de dados. Ferramentas de saúde devem conquistar a sua confiança.',
+      priv1_h: 'Sem conta', priv1_p: 'Abra o Peck e comece a registar. Nada para criar, nada para vazar.',
+      priv2_h: 'No seu dispositivo', priv2_p: 'Refeições, objetivos e revisões vivem no seu telemóvel, não numa base de marketing.',
+      priv3_h: 'Os seus dados são seus', priv3_p: 'Exporte o seu histórico quando quiser. Apague e desaparece.',
+      faq_h2: 'Perguntas frequentes',
+      faq_note: 'O Peck fala English, Español, Català, Français e Português, também dentro da app.',
+      q1: 'Preciso pesar tudo?',
+      a1: 'Não. Descreva de forma aproximada («salada de frango com azeite») ou tire uma foto e o Peck estima. Pese quando quiser precisão; senão, registe por alto e seja consistente.',
+      q2: 'E se a estimativa da IA estiver errada?',
+      a2: 'Edite com um toque: calorias e cada macro são ajustáveis. O Peck guarda a sua versão.',
+      q3: 'Onde ficam os meus dados?',
+      a3: 'No seu dispositivo. Sem conta, não há perfil na nuvem para vazar ou vender.',
+      q4: 'Posso exportar os meus dados?',
+      a4: 'Sim. Exporte o seu histórico quando quiser, diretamente da app.',
+      q5: 'O Peck é grátis?',
+      a5: 'O Peck é grátis para descarregar e registar. O Peck Plus desbloqueia estimativa sem anúncios e widgets exclusivos.',
+      q6: 'Há versão para Android?',
+      a6: 'Ainda não: primeiro iOS, Google Play chega em breve.',
+      dl_h2: 'Uma bicada de cada vez', dl_sub: 'Grátis para experimentar. Sem conta.', dl_privacy: 'Política de privacidade',
+      coming: 'Em breve',
+      badge_alt: 'Descarregar na App Store',
+      aria_nav: 'Secções', aria_lang: 'Idioma', aria_shots: 'Capturas da app Peck',
+      docTitle: 'Peck - Registo de nutrição amigável',
+      docDesc: 'Pare de adivinhar o que come. Foto ou descrição: o Peck regista calorias e macros. Sem conta.'
+    }
+  };
+  var SUP = ['en', 'es', 'ca', 'fr', 'pt'];
+  function norm(l) {
+    l = String(l || '').toLowerCase().replace('_', '-');
+    if (SUP.indexOf(l) >= 0) return l;
+    l = l.split('-')[0];
+    return SUP.indexOf(l) >= 0 ? l : 'en';
+  }
+  function apply(lang) {
+    var d = STR[lang] || STR.en;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = d[el.getAttribute('data-i18n')];
+      if (v != null) el.innerHTML = v;
+    });
+    var SHOT_PAIR = {
+      es: ['shot-home-es.png', 'shot-daily-es.png'],
+      ca: ['shot-home-ca.png', 'shot-daily-ca.png'],
+      fr: ['shot-home-fr.png', 'shot-daily-fr.png'],
+      pt: ['shot-home-pt.png', 'shot-daily-pt.png']
+    };
+    var shots = document.querySelectorAll('.shots img');
+    var pair = SHOT_PAIR[lang] || ['shot-home.png', 'shot-daily.png'];
+    if (shots[0]) { shots[0].src = pair[0]; shots[0].alt = d.alt_home; }
+    if (shots[1]) { shots[1].src = pair[1]; shots[1].alt = d.alt_daily; }
+    document.querySelectorAll('.store-badge img').forEach(function (img) { img.alt = d.badge_alt; });
+    var navEl = document.querySelector('.nav-links');
+    if (navEl) navEl.setAttribute('aria-label', d.aria_nav);
+    var lmEl = document.getElementById('langMenu');
+    if (lmEl) lmEl.setAttribute('aria-label', d.aria_lang);
+    var shEl = document.querySelector('.shots');
+    if (shEl) shEl.setAttribute('aria-label', d.aria_shots);
+    document.querySelectorAll('.gp b').forEach(function (el) { el.textContent = d.coming; });
+    document.title = d.docTitle;
+    var md = document.querySelector('meta[name="description"]');
+    if (md) md.setAttribute('content', d.docDesc);
+    document.documentElement.setAttribute('lang', lang);
+    var names = { en: 'English', es: 'Español', ca: 'Català', fr: 'Français', pt: 'Português' };
+    window.__peckLang = lang;
+    document.querySelectorAll('#langMenu li').forEach(function (li) {
+      var b = li.querySelector('button');
+      var on = b.getAttribute('data-lang') === lang;
+      li.setAttribute('aria-checked', on ? 'true' : 'false');
+      if (on) {
+        document.getElementById('langFlag').innerHTML = b.querySelector('svg').outerHTML;
+        document.getElementById('langName').textContent = names[lang] || lang;
+      }
+    });
+    try { localStorage.setItem('peck-lang', lang); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem('peck-lang'); } catch (e) {}
+  var start = saved || ((navigator.language || navigator.userLanguage) || 'en');
+  apply(norm(start));
+  var langBtn = document.getElementById('langBtn');
+  var langMenu = document.getElementById('langMenu');
+  function closeLang() { langMenu.hidden = true; langBtn.setAttribute('aria-expanded', 'false'); }
+  langBtn.addEventListener('click', function () {
+    var open = langMenu.hidden;
+    langMenu.hidden = !open;
+    langBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  langMenu.querySelectorAll('button').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.getAttribute('data-lang')); closeLang(); langBtn.focus(); });
+  });
+  document.addEventListener('click', function (e) {
+    if (!langMenu.hidden && !e.target.closest('.langdrop')) closeLang();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !langMenu.hidden) { closeLang(); langBtn.focus(); }
+  });
+})();
+</script>
 
 </body>
 </html>
