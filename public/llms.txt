@@ -1,0 +1,13 @@
+# Peck
+
+> Peck is a friendly calorie and macro coach for iPhone. Describe a meal in your own words or snap a photo, and Peck estimates calories, protein, carbs and fat, then talks you through your day. No account; data lives in the user's own iCloud.
+
+## Pages
+
+- [Home](https://kelvinharron.github.io/peck-website/): What Peck is, how logging works, Free and Plus, and the FAQ.
+- [Privacy policy](https://kelvinharron.github.io/peck-website/privacy-policy.html): How Peck handles data (also in Spanish, Catalan, French and Portuguese).
+- [App Store](https://apps.apple.com/app/id6760778069): Download Peck for iPhone.
+
+## Optional
+
+- [Sitemap](https://kelvinharron.github.io/peck-website/sitemap.xml): Every page on the site.

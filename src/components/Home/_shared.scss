@@ -1,0 +1,41 @@
+// Home — shared section styles
+// ------------
+// NOTE • Pulled in by the section modules with `@use '../shared' as *;`.
+// Partials don't get the injected Tackl layer, so it's used here directly.
+@use 'tackl' as *;
+
+@mixin eyebrow {
+	@include captionS;
+
+	display: inline-flex;
+	align-items: center;
+	gap: var(--gap-s);
+	padding: 0.7rem 1.4rem;
+	border-radius: var(--br-round);
+	background: var(--ui-bubble);
+	color: var(--ui-accent-text);
+}
+
+@mixin sectionHead {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--gap-l);
+	margin-bottom: var(--gap-uber);
+
+	@include bp(l) {
+		margin-bottom: 9.6rem;
+	}
+}
+
+@mixin accentWord {
+	color: var(--ui-accent-text);
+}
+
+@mixin card {
+	border-radius: var(--br-big);
+	background: var(--ui-card);
+	box-shadow:
+		0 0 0 1px alpha(--ui-shadow, 5),
+		0 1.2rem 3.2rem -1.6rem alpha(--ui-shadow, 18);
+}

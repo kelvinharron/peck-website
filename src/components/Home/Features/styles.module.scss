@@ -1,0 +1,302 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem;
+
+	@include bp(l) {
+		padding-block: 14rem;
+	}
+}
+
+.head {
+	@include sectionHead;
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.title {
+	@include headlineL;
+
+	em {
+		@include accentWord;
+
+		display: block;
+		font-style: normal;
+	}
+}
+
+.bento {
+	row-gap: var(--gap-l);
+}
+
+.tile {
+	@include card;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-m);
+	padding: var(--gap-xl);
+	overflow: hidden;
+
+	@include bp(l) {
+		padding: var(--gap-huge);
+	}
+
+	&[data-tone='bubble'] {
+		background: var(--ui-bubble);
+	}
+
+	&[data-tone='mint'] {
+		background: var(--macro-carbs-tile);
+	}
+
+	&[data-tone='health'] {
+		background: var(--macro-protein-tile);
+	}
+}
+
+.tileTitle {
+	@include titleL;
+}
+
+.tileText {
+	@include bodyS;
+
+	max-width: 40ch;
+	color: var(--ui-muted);
+}
+
+.quote {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--gap-m);
+	margin-top: auto;
+	padding-top: var(--gap-l);
+
+	p {
+		@include titleS;
+
+		padding: var(--gap-m) var(--gap-l);
+		border-radius: 0.8rem var(--br-big) var(--br-big);
+		background: var(--ui-card);
+		color: var(--ui-ink);
+		font-weight: var(--weight-medium);
+
+		@include bp(l) {
+			@include titleL;
+
+			padding: var(--gap-l);
+			font-weight: var(--weight-medium);
+		}
+	}
+}
+
+.quoteMascot {
+	flex: 0 0 auto;
+	width: 5.6rem;
+}
+
+// SECTION • Numbers tile
+.numbers {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-xl);
+
+	@include bp(m) {
+		flex-direction: row;
+		align-items: center;
+	}
+}
+
+.ring {
+	position: relative;
+	flex: 0 0 auto;
+	width: 18rem;
+	margin-inline: auto;
+
+	svg {
+		display: block;
+		width: 100%;
+		transform: rotate(-90deg);
+	}
+
+	p {
+		position: absolute;
+		inset: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	strong {
+		@include headlineS;
+
+		font-variant-numeric: tabular-nums;
+	}
+
+	span {
+		@include captionL;
+
+		color: var(--ui-muted);
+	}
+}
+
+.ringTrack,
+.ringFill {
+	fill: none;
+	stroke-width: 12;
+}
+
+.ringTrack {
+	stroke: var(--ui-track);
+}
+
+.ringFill {
+	stroke: var(--ui-ring);
+	stroke-linecap: round;
+}
+
+.bars {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	gap: var(--gap-m);
+	width: 100%;
+
+	li {
+		--tone: var(--macro-protein);
+
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-xs);
+
+		&[data-macro='carbs'] {
+			--tone: var(--macro-carbs);
+		}
+
+		&[data-macro='fat'] {
+			--tone: var(--macro-fat);
+		}
+	}
+
+	span {
+		@include captionL;
+
+		display: flex;
+		justify-content: space-between;
+	}
+
+	b {
+		color: var(--ui-muted);
+		font-weight: var(--weight-semi);
+	}
+
+	i {
+		display: block;
+		height: 0.8rem;
+		border-radius: var(--br-round);
+		background: var(--ui-hairline);
+		overflow: hidden;
+	}
+
+	em {
+		--fill: 0;
+
+		display: block;
+		height: 100%;
+		width: calc(var(--fill) * 100%);
+		border-radius: inherit;
+		background: var(--tone);
+		transform-origin: left;
+	}
+}
+
+// SECTION • Small tiles
+.sleepy {
+	width: 8rem;
+	margin-bottom: var(--gap-s);
+}
+
+.menu {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	margin-top: auto;
+	padding: var(--gap-s);
+	border-radius: var(--br-card);
+	background: alpha(--ui-canvas, 80);
+	box-shadow: 0 0 0 1px var(--ui-hairline);
+
+	li {
+		@include bodyS;
+
+		padding: 1rem 1.4rem;
+		border-radius: var(--br-tile);
+		font-weight: var(--weight-semi);
+		transition: background var(--time-s) linear;
+
+		&:hover {
+			background: var(--ui-chip);
+		}
+	}
+}
+
+.pill {
+	@include captionL;
+
+	align-self: flex-start;
+	margin-top: auto;
+	padding: 0.8rem 1.4rem;
+	border-radius: var(--br-round);
+	background: var(--ui-card);
+	color: var(--macro-protein-text);
+}
+
+.widget {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	width: 16rem;
+	margin-top: auto;
+	padding: var(--gap-l);
+	border-radius: 2.6rem;
+	background: linear-gradient(160deg, var(--ui-accent), var(--ui-button));
+	color: #fff;
+	box-shadow: 0 1.6rem 3.2rem -1.6rem alpha(--ui-button, 70);
+	transform: rotate(-3deg);
+
+	strong {
+		@include headlineS;
+	}
+
+	span {
+		@include captionL;
+	}
+
+	small {
+		@include captionL;
+
+		margin-top: var(--gap-s);
+		font-weight: var(--weight-regular);
+		opacity: 0.85;
+	}
+}
+
+.langs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--gap-s);
+	margin-top: auto;
+
+	li {
+		@include titleS;
+
+		padding: 0.8rem 1.6rem;
+		border-radius: var(--br-round);
+		background: var(--ui-card);
+	}
+}

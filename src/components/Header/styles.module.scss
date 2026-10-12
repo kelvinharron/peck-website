@@ -1,0 +1,104 @@
+// NOTE • A floating Liquid Glass-style bar that firms up once you scroll
+.jacket {
+	position: fixed;
+	z-index: 999;
+	inset: 0 0 auto;
+	display: flex;
+	justify-content: center;
+	padding: 1.2rem 1.6rem 0;
+	pointer-events: none;
+
+	@include bp(l) {
+		padding-top: 2rem;
+	}
+}
+
+.bar {
+	display: flex;
+	align-items: center;
+	gap: var(--gap-l);
+	width: 100%;
+	max-width: 132rem;
+	padding: 0.8rem 0.8rem 0.8rem 1.4rem;
+	border-radius: var(--br-round);
+	pointer-events: auto;
+	transition:
+		background var(--time-m) linear,
+		box-shadow var(--time-m) linear,
+		max-width var(--time-spring) var(--easing-spring);
+
+	[data-scrolled='true'] & {
+		max-width: 96rem;
+		background: alpha(--ui-card, 72);
+		box-shadow:
+			inset 0 0 0 1px alpha(--global-white, 40),
+			0 0 0 1px alpha(--ui-shadow, 6),
+			0 1.2rem 3.2rem -1.6rem alpha(--ui-shadow, 30);
+		backdrop-filter: blur(20px) saturate(1.6);
+	}
+}
+
+.brand {
+	display: flex;
+	align-items: center;
+	gap: var(--gap-s);
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: 2.2rem;
+}
+
+.logo {
+	width: 3.4rem;
+}
+
+.links {
+	display: none;
+	gap: var(--gap-xs);
+	margin-inline: auto;
+
+	@include bp(m) {
+		display: flex;
+	}
+
+	a {
+		@include captionL;
+
+		display: block;
+		padding: 0.8rem 1.4rem;
+		border-radius: var(--br-round);
+		font-weight: var(--weight-bold);
+		color: var(--ui-muted);
+		transition:
+			background var(--time-s) linear,
+			color var(--time-s) linear;
+
+		&:hover {
+			background: var(--ui-chip);
+			color: var(--ui-ink);
+		}
+	}
+}
+
+.cta {
+	@include captionL;
+
+	margin-left: auto;
+	padding: 1.1rem 2rem;
+	border-radius: var(--br-round);
+	background: var(--ui-button);
+	color: var(--ui-on-button);
+	font-weight: var(--weight-heavy);
+	transition: transform var(--time-spring) var(--easing-spring);
+
+	@include bp(m) {
+		margin-left: 0;
+	}
+
+	&:hover {
+		transform: scale(1.05);
+	}
+
+	&:active {
+		transform: scale(0.95);
+	}
+}

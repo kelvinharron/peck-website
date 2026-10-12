@@ -1,0 +1,141 @@
+// Typography
+// ------------
+// NOTE • The single home of every type style — written by hand from the
+// Figma file. Mobile-first: base declarations, then bp() steps as the design
+// needs. Families and weights come from the tokens (--font-*, --weight-*).
+
+// Each mixin is also exposed globally as a class (.t-displayL) and a data
+// attribute (data-type='displayL') — see src/css/utilities/_type.scss.
+// Add a style here, then add it to the $type-styles list at the bottom.
+@use 'breakpoints' as *;
+
+// SECTION • Display — hero headlines, one or two per page
+// NOTE • Fredoka SemiBold, like the app's large titles. Rounded letters
+// read best a touch tight at size, and loose when small.
+@mixin displayL {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: clamp(5.2rem, 13vw, 7.2rem);
+	line-height: 0.95;
+	letter-spacing: -0.02em;
+	text-wrap: balance;
+
+	@include bp(l) {
+		font-size: clamp(8rem, 6.6vw, 11.2rem);
+		letter-spacing: -0.03em;
+	}
+}
+
+@mixin displayS {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: clamp(4rem, 10vw, 5.6rem);
+	line-height: 1;
+	letter-spacing: -0.02em;
+	text-wrap: balance;
+
+	@include bp(l) {
+		font-size: clamp(7.2rem, 6.4vw, 9.6rem);
+		letter-spacing: -0.025em;
+	}
+}
+
+// SECTION • Headline — section titles and major headings
+@mixin headlineL {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: 3.6rem;
+	line-height: 1.05;
+	letter-spacing: -0.015em;
+	text-wrap: balance;
+
+	@include bp(l) {
+		font-size: clamp(5.2rem, 4.6vw, 6.8rem);
+		letter-spacing: -0.02em;
+	}
+}
+
+@mixin headlineS {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: 2.8rem;
+	line-height: 1.1;
+	letter-spacing: -0.01em;
+	text-wrap: balance;
+
+	@include bp(l) {
+		font-size: 4rem;
+	}
+}
+
+// SECTION • Title — component-level titles, labels, nav items
+@mixin titleL {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+	font-size: 2.2rem;
+	line-height: 1.2;
+
+	@include bp(l) {
+		font-size: 2.8rem;
+	}
+}
+
+@mixin titleS {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-medium);
+	font-size: 1.8rem;
+	line-height: 1.25;
+
+	@include bp(l) {
+		font-size: 2rem;
+	}
+}
+
+// SECTION • Body — paragraphs and long-form copy (Nunito)
+@mixin bodyL {
+	font-family: var(--font-body);
+	font-weight: var(--weight-medium);
+	font-size: 1.9rem;
+	line-height: 1.45;
+	text-wrap: pretty;
+
+	@include bp(l) {
+		font-size: 2.2rem;
+	}
+}
+
+@mixin bodyS {
+	font-family: var(--font-body);
+	font-weight: var(--weight-regular);
+	font-size: 1.6rem;
+	line-height: 1.5;
+	text-wrap: pretty;
+
+	@include bp(l) {
+		font-size: 1.7rem;
+	}
+}
+
+// SECTION • Caption — meta, captions, legal, microcopy
+@mixin captionL {
+	font-family: var(--font-body);
+	font-weight: var(--weight-semi);
+	font-size: 1.4rem;
+	line-height: 1.45;
+
+	@include bp(l) {
+		font-size: 1.5rem;
+	}
+}
+
+@mixin captionS {
+	font-family: var(--font-body);
+	font-weight: var(--weight-bold);
+	font-size: 1.2rem;
+	line-height: 1.4;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+// Every style above, by name — drives the .t-* classes and [data-type] selectors
+$type-styles: 'displayL', 'displayS', 'headlineL', 'headlineS', 'titleL', 'titleS', 'bodyL', 'bodyS', 'captionL', 'captionS';

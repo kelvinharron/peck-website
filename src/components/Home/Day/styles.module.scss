@@ -1,0 +1,148 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem;
+	background: linear-gradient(to bottom, var(--ui-canvas), var(--ui-chip) 30%, var(--ui-chip) 70%, var(--ui-canvas));
+
+	@include bp(l) {
+		padding-block: 14rem;
+	}
+}
+
+.head {
+	@include sectionHead;
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.title {
+	@include headlineL;
+
+	em {
+		@include accentWord;
+
+		font-style: normal;
+	}
+}
+
+.body {
+	align-items: start;
+}
+
+.steps {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-uber);
+
+	@include bp(l) {
+		gap: 0;
+	}
+}
+
+// NOTE • Desktop: each step is a tall scroll stop beside the pinned phone.
+// Mobile: each step carries its own phone inline.
+.step {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-m);
+
+	@include bp(l) {
+		justify-content: center;
+		min-height: 80svh;
+		opacity: 0.28;
+		transition: opacity var(--time-l) var(--easing-bezzy3);
+
+		&[data-active='true'] {
+			opacity: 1;
+		}
+	}
+}
+
+.kicker {
+	@include captionS;
+
+	color: var(--ui-muted);
+
+	b {
+		color: var(--ui-accent-text);
+	}
+}
+
+.stepTitle {
+	@include headlineS;
+}
+
+.stepText {
+	@include bodyL;
+
+	max-width: 32ch;
+	color: var(--ui-muted);
+}
+
+.inlinePhone {
+	width: min(72%, 30rem);
+	margin: var(--gap-l) auto 0;
+
+	@include bp(l) {
+		display: none;
+	}
+}
+
+.pin {
+	display: none;
+
+	@include bp(l) {
+		position: sticky;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--gap-xl);
+		height: 100svh;
+	}
+}
+
+.phoneStack {
+	position: relative;
+	width: min(100%, 36rem);
+	aspect-ratio: 780 / 1696;
+	max-height: 82svh;
+}
+
+.phoneLayer {
+	position: absolute;
+	inset: 0;
+	opacity: 0;
+	transform: translateY(3rem) scale(0.96);
+	transition:
+		opacity 0.45s linear,
+		transform var(--time-spring) var(--easing-spring);
+
+	&[data-active='true'] {
+		opacity: 1;
+		transform: none;
+	}
+}
+
+.dots {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-s);
+
+	li {
+		width: 0.8rem;
+		height: 0.8rem;
+		border-radius: var(--br-round);
+		background: var(--ui-chip-border);
+		transition:
+			height var(--time-spring) var(--easing-spring),
+			background var(--time-m) linear;
+
+		&[data-active='true'] {
+			height: 2.8rem;
+			background: var(--ui-accent);
+		}
+	}
+}

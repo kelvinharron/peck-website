@@ -1,0 +1,39 @@
+.jacket {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--gap-m) var(--gap-l);
+
+	&[data-centered='true'] {
+		justify-content: center;
+	}
+}
+
+.badge {
+	display: block;
+	border-radius: 1rem;
+	transition: transform var(--time-spring) var(--easing-spring);
+
+	img {
+		display: block;
+		height: 5rem;
+		width: auto;
+	}
+
+	&:hover {
+		transform: translateY(-2px) scale(1.03);
+	}
+
+	&:active {
+		transform: scale(0.97);
+	}
+}
+
+.soon {
+	@include captionL;
+
+	padding: 0.8rem 1.4rem;
+	border: 1px dashed var(--ui-chip-border);
+	border-radius: var(--br-round);
+	color: var(--ui-muted);
+}

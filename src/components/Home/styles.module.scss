@@ -1,0 +1,26 @@
+.jacket {
+	position: relative;
+}
+
+.sheet {
+	position: relative;
+	z-index: 1;
+	border-radius: 3.2rem 3.2rem 0 0;
+	background: var(--ui-canvas);
+	box-shadow: 0 -2.4rem 6rem -2.4rem alpha(--ui-shadow, 25);
+
+	@include bp(l) {
+		border-radius: 5.6rem 5.6rem 0 0;
+	}
+}
+
+.grabber {
+	position: absolute;
+	top: 1.2rem;
+	left: 50%;
+	width: 4.8rem;
+	height: 0.5rem;
+	border-radius: var(--br-round);
+	background: var(--ui-chip-border);
+	transform: translateX(-50%);
+}

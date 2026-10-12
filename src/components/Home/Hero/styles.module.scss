@@ -1,0 +1,327 @@
+@use '../shared' as *;
+
+// NOTE • Sticky: the rest of the page is a sheet that slides up over it
+.jacket {
+	position: sticky;
+	top: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100svh;
+	padding-block: 11rem 8rem;
+	overflow: hidden;
+	background:
+		radial-gradient(60rem 40rem at 85% 20%, alpha(--mascot-head, 22), transparent 70%),
+		radial-gradient(50rem 40rem at 0% 100%, alpha(--ui-accent, 14), transparent 70%),
+		var(--ui-canvas);
+
+	@include bp(l) {
+		padding-block: 12rem 9.6rem;
+	}
+}
+
+.grid {
+	align-items: center;
+	row-gap: var(--gap-huge);
+}
+
+.copy {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--gap-l);
+	order: 2;
+
+	@include bp(l) {
+		order: 1;
+	}
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.dot {
+	width: 0.8rem;
+	height: 0.8rem;
+	border-radius: 50%;
+	background: var(--ui-accent);
+	box-shadow: 0 0 0 0.4rem alpha(--ui-accent, 25);
+}
+
+.title {
+	@include displayL;
+
+	em {
+		@include accentWord;
+
+		display: block;
+		font-style: normal;
+	}
+}
+
+.lede {
+	@include bodyL;
+
+	max-width: 34ch;
+	color: var(--ui-muted);
+}
+
+.actions {
+	margin-top: var(--gap-s);
+}
+
+// SECTION • Peck and the thoughts around him
+.stage {
+	order: 1;
+
+	@include bp(l) {
+		order: 2;
+	}
+}
+
+.stageInner {
+	position: relative;
+	width: min(100%, 46rem);
+	margin-inline: auto;
+	aspect-ratio: 1;
+
+	@include bp(l) {
+		width: min(100%, 56rem);
+	}
+}
+
+.glow {
+	position: absolute;
+	inset: 12%;
+	border-radius: 50%;
+	background: radial-gradient(circle, alpha(--mascot-head, 60), transparent 65%);
+	filter: blur(30px);
+	animation: breathe 5s ease-in-out infinite alternate;
+}
+
+.poke {
+	position: absolute;
+	inset: 14%;
+	cursor: pointer;
+	border-radius: 50%;
+	animation: bob 4.2s ease-in-out infinite;
+	transition: transform var(--time-spring) var(--easing-spring);
+
+	&:hover {
+		transform: scale(1.04) rotate(-2deg);
+	}
+
+	&:active {
+		transform: scale(0.94);
+	}
+}
+
+.thoughts {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+// NOTE • Placed round Peck in a loose ring, each one floating out of step
+.thought {
+	--meal: var(--meal-breakfast);
+	--i: 0;
+
+	position: absolute;
+
+	span {
+		@include captionL;
+
+		display: flex;
+		align-items: center;
+		gap: var(--gap-s);
+		padding: 0.9rem 1.5rem;
+		border-radius: 1.8rem 1.8rem 1.8rem 0.6rem;
+		background: var(--ui-card);
+		color: var(--ui-ink);
+		white-space: nowrap;
+		text-wrap: balance;
+		box-shadow:
+			inset 0.4rem 0 0 var(--meal),
+			0 1rem 2.4rem -1.2rem alpha(--ui-shadow, 30);
+		animation: float 6s ease-in-out infinite alternate;
+		animation-delay: calc(var(--i) * -1.1s);
+	}
+
+	&[data-meal='snack'] {
+		--meal: var(--meal-snack);
+	}
+
+	&[data-meal='lunch'] {
+		--meal: var(--meal-lunch);
+	}
+
+	&[data-meal='dinner'] {
+		--meal: var(--meal-dinner);
+	}
+
+	// NOTE • Placed above and below Peck's eye line (roughly 40–62% down the
+	// stage), so the longer, specific thoughts never cover his face
+	span {
+		max-width: 24rem;
+		white-space: normal;
+	}
+
+	&:nth-child(1) {
+		top: 3%;
+		left: -4%;
+	}
+
+	&:nth-child(2) {
+		top: 0;
+		right: 4%;
+	}
+
+	&:nth-child(3) {
+		top: 68%;
+		right: -10%;
+	}
+
+	&:nth-child(4) {
+		bottom: 0;
+		right: 14%;
+	}
+
+	&:nth-child(5) {
+		bottom: 4%;
+		left: -2%;
+	}
+
+	&:nth-child(6) {
+		top: 22%;
+		left: -12%;
+	}
+
+	// NOTE • Small laptops: the stage is narrow, so just three thoughts
+	@include bp(l) {
+		@include bpd(xl) {
+			&:nth-child(3),
+			&:nth-child(4),
+			&:nth-child(6) {
+				display: none;
+			}
+		}
+	}
+
+	// NOTE • Phones: three short-wrapped thoughts, kept clear of Peck's face
+	@include bpd(m) {
+		span {
+			max-width: 15rem;
+			white-space: normal;
+		}
+
+		&:nth-child(3),
+		&:nth-child(n + 6) {
+			display: none;
+		}
+
+		&:nth-child(1) {
+			top: 0;
+			left: -4%;
+		}
+
+		&:nth-child(2) {
+			top: 10%;
+			right: -4%;
+		}
+
+		&:nth-child(4) {
+			bottom: 4%;
+			right: -2%;
+		}
+
+		&:nth-child(5) {
+			bottom: 0;
+			left: -4%;
+		}
+	}
+}
+
+.thoughtPhoto {
+	display: block;
+	width: 2.8rem;
+	height: 2.8rem;
+	margin: -0.4rem 0 -0.4rem -0.6rem;
+	overflow: hidden;
+	border-radius: 0.8rem;
+}
+
+.scrollCue {
+	@include captionL;
+
+	position: absolute;
+	left: 50%;
+	bottom: var(--gap-l);
+	display: none;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--gap-s);
+	color: var(--ui-muted);
+	transform: translateX(-50%);
+
+	i {
+		width: 2.2rem;
+		height: 3.4rem;
+		border: 2px solid currentcolor;
+		border-radius: 1.2rem;
+		position: relative;
+
+		&::after {
+			content: '';
+			position: absolute;
+			top: 0.6rem;
+			left: 50%;
+			width: 0.4rem;
+			height: 0.8rem;
+			margin-left: -0.2rem;
+			border-radius: 0.2rem;
+			background: currentcolor;
+			animation: wheel 1.8s ease-in-out infinite;
+		}
+	}
+
+	@include bp(l) {
+		display: flex;
+	}
+}
+
+@keyframes bob {
+	50% {
+		translate: 0 -1.6rem;
+	}
+}
+
+@keyframes float {
+	to {
+		translate: 0 -1.2rem;
+	}
+}
+
+@keyframes breathe {
+	to {
+		opacity: 0.6;
+		scale: 1.08;
+	}
+}
+
+@keyframes wheel {
+	60% {
+		opacity: 0;
+		translate: 0 1rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.poke,
+	.glow,
+	.thought span,
+	.scrollCue i::after {
+		animation: none;
+	}
+}
