@@ -1,0 +1,95 @@
+.jacket {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+}
+
+.face {
+	--tilt: 0deg;
+
+	transform: rotate(var(--tilt));
+	transform-origin: 512px 560px;
+	transition: transform var(--time-spring) var(--easing-spring);
+}
+
+.roundEyes {
+	--look-x: 0px;
+	--look-y: 0px;
+
+	transform: translate(var(--look-x), var(--look-y)) scaleY(0.08);
+	opacity: 0;
+	transition:
+		transform 0.18s var(--easing-bezzy3),
+		opacity 0.1s linear;
+
+	&[data-open='true'] {
+		transform: translate(var(--look-x), var(--look-y)) scaleY(1);
+		opacity: 1;
+		transition:
+			transform 0.1s ease-out,
+			opacity 0.1s linear;
+	}
+
+	// NOTE • A blink squashes the eyes to a line and stays opaque, so it reads
+	// as lids closing rather than eyes fading out
+	&[data-open='true'][data-blink='true'] {
+		transform: translate(var(--look-x), var(--look-y)) scaleY(0.1);
+		transition: transform 0.07s ease-in;
+	}
+}
+
+.arcEyes {
+	opacity: 0;
+	transition: opacity var(--time-s) linear;
+
+	&[data-open='true'] {
+		opacity: 1;
+	}
+}
+
+.sparkles,
+.zs {
+	opacity: 0;
+	transform: scale(0.6);
+	transform-origin: 512px 512px;
+	transition:
+		opacity var(--time-m) linear,
+		transform var(--time-spring) var(--easing-spring);
+
+	&[data-show='true'] {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.zs {
+	font-family: var(--font-heading);
+	font-weight: var(--weight-semi);
+
+	&[data-show='true'] {
+		animation: drift 2.8s ease-in-out infinite alternate;
+	}
+}
+
+@keyframes drift {
+	to {
+		transform: translateY(-24px);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.face,
+	.sparkles,
+	.zs {
+		transition-duration: 0.15s;
+		animation: none;
+	}
+
+	// NOTE • Blinks still happen, as an instant open/shut
+	.roundEyes,
+	.roundEyes[data-open='true'],
+	.roundEyes[data-open='true'][data-blink='true'] {
+		transition: none;
+	}
+}

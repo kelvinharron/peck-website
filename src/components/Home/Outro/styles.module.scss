@@ -1,0 +1,46 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem 12rem;
+	overflow: hidden;
+	background:
+		radial-gradient(50rem 36rem at 50% 30%, alpha(--mascot-head, 30), transparent 70%),
+		var(--ui-canvas);
+
+	@include bp(l) {
+		padding-block: 14rem 16rem;
+	}
+}
+
+.inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--gap-l);
+	text-align: center;
+}
+
+.mascot {
+	width: 16rem;
+
+	@include bp(l) {
+		width: 22rem;
+	}
+}
+
+.title {
+	@include displayS;
+
+	em {
+		@include accentWord;
+
+		display: block;
+		font-style: normal;
+	}
+}
+
+.lede {
+	@include bodyL;
+
+	color: var(--ui-muted);
+}

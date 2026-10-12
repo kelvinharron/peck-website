@@ -1,0 +1,130 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem;
+
+	@include bp(l) {
+		padding-block: 14rem;
+	}
+
+	waffl-grid {
+		row-gap: var(--gap-l);
+	}
+}
+
+.head {
+	@include sectionHead;
+
+	align-items: center;
+	text-align: center;
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.title {
+	@include headlineL;
+
+	em {
+		@include accentWord;
+
+		display: block;
+		font-style: normal;
+	}
+}
+
+.lede {
+	@include bodyL;
+
+	max-width: 36ch;
+	color: var(--ui-muted);
+}
+
+.plan {
+	@include card;
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-m);
+	padding: var(--gap-xl);
+
+	@include bp(l) {
+		padding: var(--gap-huge);
+	}
+
+	&[data-plus] {
+		background: linear-gradient(165deg, var(--ui-bubble), var(--ui-card) 60%);
+		box-shadow:
+			0 0 0 2px var(--ui-accent),
+			0 2.4rem 4.8rem -2.4rem alpha(--ui-accent, 60);
+	}
+}
+
+.badge {
+	@include captionS;
+
+	align-self: flex-start;
+	padding: 0.6rem 1.2rem;
+	border-radius: var(--br-round);
+	background: var(--ui-button);
+	color: var(--ui-on-button);
+}
+
+.planName {
+	@include headlineS;
+}
+
+.planNote {
+	@include bodyS;
+
+	color: var(--ui-muted);
+}
+
+.list {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-sm);
+	margin-top: var(--gap-s);
+
+	li {
+		@include bodyS;
+
+		position: relative;
+		padding-left: 3.2rem;
+		font-weight: var(--weight-semi);
+
+		&::before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0.2rem;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 50%;
+			background: var(--ui-chip);
+		}
+
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0.7rem;
+			top: 0.6rem;
+			width: 0.5rem;
+			height: 0.95rem;
+			border-right: 2px solid var(--ui-accent-text);
+			border-bottom: 2px solid var(--ui-accent-text);
+			transform: rotate(45deg);
+		}
+	}
+}
+
+.small {
+	@include captionL;
+
+	margin-top: auto;
+	padding-top: var(--gap-m);
+	font-weight: var(--weight-regular);
+	color: var(--ui-muted);
+}

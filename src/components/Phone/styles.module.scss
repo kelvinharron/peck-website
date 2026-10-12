@@ -1,0 +1,28 @@
+// NOTE • A light-touch iPhone: a dark bezel, the screen's own corner radius,
+// and a soft warm shadow — the screenshot already carries the Dynamic Island
+.jacket {
+	position: relative;
+	aspect-ratio: 780 / 1696;
+	padding: 3.2%;
+	border-radius: 14% / 6.6%;
+	background: #1b1410;
+	box-shadow:
+		0 0 0 1px alpha(--ui-shadow, 10),
+		0 2.4rem 6rem -1.2rem alpha(--ui-shadow, 30),
+		0 0.8rem 2rem -0.8rem alpha(--ui-shadow, 25);
+}
+
+.screen {
+	display: block;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 11.5% / 5.3%;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+}

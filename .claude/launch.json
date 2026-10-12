@@ -1,0 +1,11 @@
+{
+	"version": "0.0.1",
+	"configurations": [
+		{
+			"name": "peck-website",
+			"runtimeExecutable": "mise",
+			"runtimeArgs": ["exec", "--", "bun", "run", "dev"],
+			"port": 3000
+		}
+	]
+}

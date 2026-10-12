@@ -1,0 +1,82 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem;
+
+	@include bp(l) {
+		padding-block: 16rem 14rem;
+	}
+}
+
+.paper {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--gap-xl);
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.salutation {
+	@include displayS;
+
+	span {
+		@include accentWord;
+	}
+}
+
+.body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gap-xl);
+	margin-top: var(--gap-l);
+}
+
+.line {
+	@include headlineS;
+
+	font-weight: var(--weight-medium);
+	line-height: 1.25;
+
+	[data-accent] {
+		@include accentWord;
+
+		font-weight: var(--weight-semi);
+	}
+}
+
+.signoff {
+	display: flex;
+	align-items: center;
+	gap: var(--gap-l);
+	margin-top: var(--gap-xl);
+	padding: var(--gap-l) var(--gap-xl) var(--gap-l) var(--gap-l);
+	border-radius: var(--br-big);
+	background: var(--ui-bubble);
+
+	p {
+		display: flex;
+		flex-direction: column;
+		gap: var(--gap-xs);
+	}
+}
+
+.signMascot {
+	flex: 0 0 auto;
+	width: 7.2rem;
+}
+
+.signName {
+	@include bodyS;
+
+	font-style: italic;
+	color: var(--ui-bubble-text);
+}
+
+.signNote {
+	@include titleS;
+
+	color: var(--ui-ink);
+}

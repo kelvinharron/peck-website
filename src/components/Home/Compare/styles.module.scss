@@ -1,0 +1,184 @@
+@use '../shared' as *;
+
+.jacket {
+	padding-block: 9.6rem;
+	background: var(--ui-chip);
+
+	@include bp(l) {
+		padding-block: 14rem;
+	}
+}
+
+.head {
+	@include sectionHead;
+}
+
+.eyebrow {
+	@include eyebrow;
+}
+
+.title {
+	@include headlineL;
+
+	em {
+		@include accentWord;
+
+		display: block;
+		font-style: normal;
+	}
+}
+
+.srOnly {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+// NOTE • A real table for screen readers; on phones each row becomes a card
+.table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0 var(--gap-sm);
+
+	thead {
+		display: none;
+
+		@include bp(m) {
+			display: table-header-group;
+		}
+
+		th {
+			@include captionS;
+
+			padding: 0 var(--gap-l) var(--gap-s);
+			text-align: left;
+			color: var(--ui-muted);
+		}
+
+		.peck {
+			color: var(--ui-accent-text);
+		}
+	}
+
+	tbody tr {
+		display: grid;
+		gap: var(--gap-s);
+		margin-bottom: var(--gap-m);
+		padding: var(--gap-l);
+		border-radius: var(--br-big);
+		background: var(--ui-card);
+
+		@include bp(m) {
+			display: table-row;
+			margin: 0;
+			padding: 0;
+			background: none;
+		}
+	}
+
+	tbody th,
+	tbody td {
+		@include bp(m) {
+			padding: var(--gap-l) var(--gap-xl);
+			vertical-align: top;
+			background: var(--ui-card);
+		}
+	}
+
+	tbody th {
+		@include titleS;
+
+		text-align: left;
+
+		@include bp(m) {
+			width: 22%;
+			border-radius: var(--br-card) 0 0 var(--br-card);
+		}
+	}
+
+	tbody td {
+		@include bodyS;
+
+		display: flex;
+		gap: var(--gap-sm);
+		align-items: flex-start;
+
+		@include bp(m) {
+			position: relative;
+			display: table-cell;
+			padding-left: calc(var(--gap-xl) + 3.6rem);
+		}
+	}
+
+	tbody .them {
+		color: var(--ui-faint);
+	}
+
+	tbody .peck {
+		color: var(--ui-ink);
+		font-weight: var(--weight-semi);
+
+		@include bp(m) {
+			border-radius: 0 var(--br-card) var(--br-card) 0;
+			background: var(--ui-bubble);
+		}
+	}
+}
+
+.mark {
+	position: relative;
+	flex: 0 0 auto;
+	display: inline-block;
+	width: 2rem;
+	height: 2rem;
+	margin-right: var(--gap-sm);
+	border-radius: 50%;
+	vertical-align: -0.4rem;
+
+	&[data-kind='no'] {
+		background: var(--ui-hairline);
+
+		&::before,
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0.55rem;
+			top: 0.95rem;
+			width: 0.9rem;
+			height: 2px;
+			border-radius: 1px;
+			background: var(--ui-faint);
+			transform: rotate(45deg);
+		}
+
+		&::after {
+			transform: rotate(-45deg);
+		}
+	}
+
+	&[data-kind='yes'] {
+		background: var(--ui-button);
+
+		&::after {
+			content: '';
+			position: absolute;
+			left: 0.7rem;
+			top: 0.4rem;
+			width: 0.5rem;
+			height: 0.95rem;
+			border-right: 2px solid #fff;
+			border-bottom: 2px solid #fff;
+			transform: rotate(45deg);
+		}
+	}
+
+	@include bp(m) {
+		position: absolute;
+		top: var(--gap-l);
+		left: var(--gap-xl);
+		margin: 0;
+	}
+}
